@@ -27,4 +27,10 @@ interface Queryable
     public function buildQuery(): string;
 
     public function get(): array;
+
+    public static function create(array $data): self;
+
+    public function update(array $data): self;
+
+    public function delete(): self;
 }

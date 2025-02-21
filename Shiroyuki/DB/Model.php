@@ -255,4 +255,132 @@ abstract class Model extends Connection implements Queryable
             mode: PDO::FETCH_ASSOC,
         );
     }
+
+    /**
+     * Membuat data baru pada database.
+     *
+     * @param  array  $data
+     * @return self
+     */
+    public static function create(array $data): self
+    {
+        // Mengambil kolom-kolom yang diperbolehkan.
+        $allowedColumns = (new static())->getColumns();
+
+        // Membuat query untuk insert data.
+        $query = 'INSERT INTO ' . (new static())->getTableName() . ' (';
+
+        // Mengambil kolom-kolom yang diperbolehkan.
+        foreach ($data as $column => $value) {
+            if (in_array($column, $allowedColumns)) {
+                $query .= "{$column},";
+            }
+        }
+
+        // Menghapus koma di akhir query.
+        $query = rtrim($query, ', ');
+
+        // Menambahkan tanda kurung tutup.
+        $query .= ') VALUES (';
+
+        // Mengisi nilai dari kolom-kolom yang diperbolehkan.
+        foreach ($data as $column => $value) {
+            if (in_array($column, $allowedColumns)) {
+                $query .= ":{$column},";
+            }
+        }
+
+        // Menghapus koma di akhir query.
+        $query = rtrim($query, ', ');
+
+        // Menambahkan tanda kurung tutup.
+        $query .= ')';
+
+        // Menyiapkan statement untuk dieksekusi.
+        $statement = (new static())->connection->prepare($query);
+
+        foreach ($data as $column => $value) {
+            if (in_array($column, $allowedColumns)) {
+                $statement->bindValue(":{$column}", $value);
+            }
+        }
+
+        // Menjalankan query.
+        $statement->execute();
+
+        return new static();
+    }
+
+    /**
+     * Mengupdate data pada database.
+     *
+     * @param  array  $data
+     * @return self
+     */
+    public function update(array $data): self
+    {
+        $allowedColumns = $this->getColumns();
+
+        $query = 'UPDATE ' . $this->getTableName() . ' SET ';
+
+        foreach ($data as $column => $value) {
+            if (in_array($column, $allowedColumns)) {
+                $query .= "{$column} = :{$column}, ";
+            }
+        }
+
+        $query = rtrim($query, ', ');
+
+        if (!empty($this->where)) {
+            $query .= ' WHERE ';
+
+            foreach ($this->where as $index => $where) {
+                $query .= $where['column'] . ' ' . $where['operator'] . ' ' . $where['value'];
+
+                if ($index < count($this->where) - 1) {
+                    $query .= ' AND ';
+                }
+            }
+        }
+
+        $statement = $this->connection->prepare($query);
+
+        foreach ($data as $column => $value) {
+            if (in_array($column, $allowedColumns)) {
+                $statement->bindValue(":{$column}", $value);
+            }
+        }
+
+        $statement->execute();
+
+        return $this;
+    }
+
+    /**
+     * Menghapus data pada database.
+     *
+     * @return self
+     */
+    public function delete(): self
+    {
+        $query = 'DELETE FROM ' . $this->getTableName();
+
+        if (!empty($this->where)) {
+            $query .= ' WHERE ';
+
+            foreach ($this->where as $index => $where) {
+                $query .= $where['column'] . ' ' . $where['operator'] . ' ' . $where['value'];
+
+                if ($index < count($this->where) - 1) {
+                    $query .= ' AND ';
+                }
+            }
+        }
+
+        $statement = $this->connection->prepare($query);
+
+        $statement->execute();
+
+        return $this;
+    }
 }

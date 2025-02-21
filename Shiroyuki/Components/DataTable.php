@@ -64,7 +64,7 @@ abstract class DataTable
             $headers .= "<th>{$column}</th>";
         }
 
-        return $headers;
+        return $headers . "<th>Action</th>";
     }
 
     /**
@@ -86,9 +86,28 @@ abstract class DataTable
         foreach ($data as $datum) {
             $body .= '<tr>';
 
+            $modalData = str_replace('"', "'", json_encode($datum));
+
             foreach ($columns as $column) {
                 $body .= "<td>{$datum[$column]}</td>";
             }
+
+            $body .= "<td>
+                <a
+                    href='javascript:void(0)'
+                    class='btn btn-success btn-sm'
+                    data-bs-toggle='modal'
+                    data-bs-target='#editModal'
+                    onclick=\"setModalData({$modalData})\"
+                >Edit</a>
+                <a
+                    href='javascript:void(0)'
+                    class='btn btn-danger btn-sm'
+                    data-bs-toggle='modal'
+                    data-bs-target='#deleteModal'
+                    onclick='setDeletionId({$datum['id']})'
+                >Delete</a>
+            </td>";
 
             $body .= '</tr>';
         }
