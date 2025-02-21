@@ -80,6 +80,9 @@ abstract class Model extends Connection implements Queryable
         // Fungsi ini akan mengambil nama class dan mengubahnya menjadi
         // bentuk snake_case.
         $this->setAutomaticTableName();
+
+        // Mengecek apakah kolom yang akan diambil sudah diatur.
+        $this->checkIfColumnsAttributeExists();
     }
 
     /**

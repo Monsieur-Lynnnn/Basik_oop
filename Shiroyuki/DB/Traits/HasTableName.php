@@ -37,4 +37,16 @@ trait HasTableName
     {
         return (new static())->columns;
     }
+
+    /**
+     * Mengecek apakah kolom yang dimasukkan ada pada Tabel.
+     *
+     * @return void
+     */
+    public function checkIfColumnsAttributeExists(): void
+    {
+        if (empty ($this->columns)) {
+            throw new \Exception("Anda belum mengatur kolom yang akan diambil pada atribut columns pada model " . get_class($this));
+        }
+    }
 }
