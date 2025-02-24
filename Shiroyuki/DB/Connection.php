@@ -67,9 +67,9 @@ class Connection
     public function __construct(
         string $host = '127.0.0.1',
         int $port = 3308,
-        string $username = 'oop',
-        string $password = 'password',
-        string $database = 'oop',
+        string $username = 'root',
+        string $password = '',
+        string $database = 'new',
     ) {
         $this->host = $host;
 
