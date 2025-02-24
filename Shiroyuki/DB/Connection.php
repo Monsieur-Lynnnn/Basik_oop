@@ -66,7 +66,7 @@ class Connection
      */
     public function __construct(
         string $host = '127.0.0.1',
-        int $port = 3308,
+        int $port = 3306,
         string $username = 'root',
         string $password = '',
         string $database = 'new',
