@@ -1,6 +1,6 @@
 <?php
 
-use Components\UserDataTable;
+use Components\RestoDataTable;
 use Models\Resto;
 
 include_once './layouts/header.php';
@@ -8,17 +8,17 @@ include_once './layouts/header.php';
 if (isset ($_POST['action'])) {
     switch ($_POST['action']) {
         case 'addResto':
-            User::create($_POST);
+            Resto::create($_POST);
             break;
 
         case 'editResto':
-            (new User)->query()
+            (new Resto)->query()
                 ->where('id', '=', $_POST['id'])
                 ->update($_POST);
             break;
 
         case 'deleteResto':
-            (new User)->query()
+            (new Resto)->query()
                 ->where('id', '=', $_POST['id'])
                 ->delete();
             break;
@@ -34,15 +34,15 @@ if (isset ($_POST['action'])) {
 <div class="container">
     <div class="d-flex align-items-center justify-content-between mb-3">
         <h4 class="h4">
-            User Data
+            Resto Data
         </h4>
         <a href="javascript:void(0)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
-            Tambah User
+            Tambah Data
         </a>
     </div>
 
     <div class="overflow-x-auto">
-        <?= UserDataTable::render(); ?>
+        <?= RestoDataTable::render(); ?>
     </div>
 
     <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModal" aria-hidden="true">
@@ -50,13 +50,13 @@ if (isset ($_POST['action'])) {
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5">
-                        Tambah User
+                        Tambah Data
                     </h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <form action="" method="post">
-                    <input type="hidden" name="action" value="addUser">
+                    <input type="hidden" name="action" value="addRessto">
 
                     <div class="modal-body">
                         <div class="mb-3">
@@ -75,78 +75,37 @@ if (isset ($_POST['action'])) {
                         </div>
 
                         <div class="mb-3">
-                            <label for="email" class="col-form-label">
-                                Email:
-                                <span class="text-danger">*</span>
-                            </label>
-                            <input
-                                type="email"
-                                class="form-control"
-                                id="email"
-                                name="email"
-                                required
-                            />
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="hobby" class="col-form-label">
-                                Hobi:
+                            <label for="Lokasi" class="col-form-label">
+                                Lokasi:
                                 <span class="text-danger">*</span>
                             </label>
 
                             <input
                                 type="text"
                                 class="form-control"
-                                id="hobby"
-                                name="hobby"
+                                id="Lokasi"
+                                name="Lokasi"
                                 required
                             >
                         </div>
 
                         <div class="mb-3">
-                            <label for="height" class="col-form-label">
-                                Tinggi:
-                                <span class="text-danger">*</span>
-                            </label>
-
-                            <input
-                                type="number"
-                                class="form-control"
-                                id="height"
-                                name="height"
-                                required
-                            >
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="weight" class="col-form-label">
-                                Berat:
-                                <span class="text-danger">*</span>
-                            </label>
-
-                            <input
-                                type="number"
-                                class="form-control"
-                                id="weight"
-                                name="weight"
-                                required
-                            >
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="gender" class="col-form-label">
-                                Jenis Kelamin:
+                            <label for="Bintang" class="col-form-label">
+                                Bintang:
                                 <span class="text-danger">*</span>
                             </label>
 
                             <select
-                                name="gender"
-                                id="gender"
+                                name="Bintang"
+                                id="Bintang"
                                 class="form-control"
                                 required
                             >
-                                <option value="L">L</option>
-                                <option value="P">P</option>
+                                <option value="⭐">⭐</option>
+                                <option value="⭐⭐">⭐⭐</option>
+                                <option value="⭐⭐⭐">⭐⭐⭐</option>
+                                <option value="⭐⭐⭐⭐">⭐⭐⭐⭐</option>
+                                <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐</option>
                             </select>
                         </div>
                     </div>
@@ -165,104 +124,62 @@ if (isset ($_POST['action'])) {
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5">
-                        Edit User
+                        Edit 
                     </h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <form action="" method="post">
-                    <input type="hidden" name="action" value="editUser" />
+                    <input type="hidden" name="action" value="editResto" />
                     <input type="hidden" name="id" />
 
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="name" class="col-form-label">
-                                Nama:
+                            <label for="Resto" class="col-form-label">
+                                Resto:
                                 <span class="text-danger">*</span>
                             </label>
 
                             <input
                                 type="text"
                                 class="form-control"
-                                id="name"
-                                name="name"
+                                id="Resto"
+                                name=""
                                 required
                             >
                         </div>
 
                         <div class="mb-3">
-                            <label for="email" class="col-form-label">
-                                Email:
+                            <label for="Lokasi" class="col-form-label">
+                                Lokasi
                                 <span class="text-danger">*</span>
                             </label>
                             <input
-                                type="email"
+                                type="text"
                                 class="form-control"
-                                id="email"
-                                name="email"
+                                id="Lokasi"
+                                name=""
                                 required
                             />
+
                         </div>
-
                         <div class="mb-3">
-                            <label for="hobby" class="col-form-label">
-                                Hobi:
-                                <span class="text-danger">*</span>
-                            </label>
-
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="hobby"
-                                name="hobby"
-                                required
-                            >
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="height" class="col-form-label">
-                                Tinggi:
-                                <span class="text-danger">*</span>
-                            </label>
-
-                            <input
-                                type="number"
-                                class="form-control"
-                                id="height"
-                                name="height"
-                                required
-                            >
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="weight" class="col-form-label">
-                                Berat:
-                                <span class="text-danger">*</span>
-                            </label>
-
-                            <input
-                                type="number"
-                                class="form-control"
-                                id="weight"
-                                name="weight"
-                                required
-                            >
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="gender" class="col-form-label">
-                                Jenis Kelamin:
+                            <label for="Bintang" class="col-form-label">
+                                Bintang:
                                 <span class="text-danger">*</span>
                             </label>
 
                             <select
-                                name="gender"
-                                id="gender"
+                                name="Bintang"
+                                id="Bintang"
                                 class="form-control"
                                 required
                             >
-                                <option value="L">L</option>
-                                <option value="P">P</option>
+                                <option value="⭐">⭐</option>
+                                <option value="⭐⭐">⭐⭐</option>
+                                <option value="⭐⭐⭐">⭐⭐⭐</option>
+                                <option value="⭐⭐⭐⭐">⭐⭐⭐⭐</option>
+                                <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐</option>
                             </select>
                         </div>
                     </div>
@@ -281,7 +198,7 @@ if (isset ($_POST['action'])) {
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5">
-                        Delete User
+                        Delete Data
                     </h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
